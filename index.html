@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotek</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+
+        let book1 = {
+            title: "Den lille kaninen",
+            author: "Har Re",
+            year: 2001,
+            inStock: false
+        }
+        let book2 = {
+            title: "Den kule marihøna",
+            author: "Lady Bugg",
+            year: 2010,
+            inStock: true
+        }
+        let book3 = {
+            title: "Det merkelige marsvinet",
+            author: "Ginni Pig",
+            year: 1999,
+            inStock: false
+        }
+
+        let books = [book1, book2, book3];
+        let app = document.getElementById('app');
+        let inputTextTitle = '';
+        let inputTextAuthor='';
+        let inputTextYear= 0;
+        let selectedBook = null
+
+        updateView();
+
+        function updateView() {
+            app.innerHTML = /*html*/`
+           ${makeHeader()}
+           ${addBooks()}
+           ${makeStockMessage()}
+           ${addNewBookComponent()}
+            `;
+        }
+
+        function makeHeader(){
+            return /*html*/`
+            <div class="header">
+            <h1> - Anneli's bibliotek - </h1>
+            </div>
+            `;
+        }
+
+        function addBooks(){
+            let bookshelf = '';
+            for (let i = 0; i < books.length; i++) {
+            bookshelf += /*html*/`
+            <div class="bookContainer">
+            <div class="bookBox">Tittel: ${books[i].title}</div>
+            <div class="bookBox">Forfatter: ${books[i].author}</div>
+            <div class="bookBox">År: ${books[i].year}</div>
+            <button onclick="selectBook(${i})">Sjekk lager</button>
+            </div>
+            `;
+        } return bookshelf;
+        }
+
+        function addNewBookComponent(){
+            return /*html*/ `
+            <div class="addNewBookClass">
+            <div>Tittel:</div>
+            <input oninput="inputTextTitle=this.value" input type="text">
+            <div>Forfatter:</div>
+            <input oninput="inputTextAuthor=this.value" input type="text">
+            <div>År:</div>
+            <input oninput="inputTextYear=this.value" input type="text">
+            <button onclick="addNewBookBtn()">Legg til bok</button>
+            </div>
+            `;
+        }
+
+        function addNewBookBtn() { //Objekt, push
+            books.push({
+                title: inputTextTitle,
+                author: inputTextAuthor,
+                year: inputTextYear,
+                inStock: '',
+            })
+             updateView();
+        }
+
+        function selectBook(i){
+            selectedBook = i
+            updateView()
+        }
+
+        function makeStockMessage() {
+            let result = ""
+            if(selectedBook == null) return ""
+            if (books[selectedBook].inStock == true) {
+                result += /*html*/`
+            <div class="bookBoxStock">${books[selectedBook].title}: På lager</div>
+            `;
+            }
+            else {
+                result += /*html*/`
+            <div class="bookBoxStock">${books[selectedBook].title}: Ikke på lager</div>
+            `;
+            }
+            return result;
+        }
+
+    </script>
+
+    <style>
+        body{
+            background-color: rgb(30, 91, 51);
+        }
+        #app{
+            display:flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+            padding: 10px;
+        }
+        .header{
+            position: absolute;
+            border: double 5px;
+            border-radius: 5px;
+            padding: 10px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(76, 144, 98);
+        }
+        .bookContainer {
+            display: grid;
+            justify-content: center;
+            border: solid 2px;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 11%;
+            gap: 10px;
+            background-color: rgb(76, 144, 98);
+        }
+
+        .bookBox {
+            display: flex;
+            justify-content: center;
+            width: 230px;
+            padding: 5px;
+        }
+
+        .bookBoxStock {
+            position: absolute;
+            margin-top: 22%;
+            
+        }
+        .addNewBookClass{
+            position: absolute;
+            margin-top: 25%;
+            border: solid 2px;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: rgb(76, 144, 98);
+        }
+        button{
+            display: flex;
+            width: fit-content;
+            margin-left: 80px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            background-color: rgb(30, 91, 51);
+            color: rgb(0, 0, 0);
+        }
+    </style>
+</body>
+</html>
